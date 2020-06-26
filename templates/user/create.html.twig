@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block body %}
+<form method="post" action="{{ path('store-user') }}">
+
+    <h1 class="h3 mb-3 font-weight-normal">Please sign Up</h1>
+    
+    <label for="inputUsername">Username</label>
+    <input type="text" name="username" id="inputUsername" class="form-control" required autofocus>
+    
+    <label for="inputPassword">Password</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" required>
+
+    <label for="inputUsername">Email</label>
+    <input type="text" name="email" id="inputEmail" class="form-control" required autofocus>
+
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+
+    <button class="btn btn-lg btn-primary" type="submit">
+        Save
+    </button>
+</form>
+{% endblock %}

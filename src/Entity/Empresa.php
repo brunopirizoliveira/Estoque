@@ -39,9 +39,15 @@ class Empresa
      */
     private $idAlmoxarifado;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Produto::class, mappedBy="empresa")
+     */
+    private $produtos;
+
     public function __construct()
     {
         $this->idAlmoxarifado = new ArrayCollection();
+        $this->produtos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -110,6 +116,37 @@ class Empresa
             // set the owning side to null (unless already changed)
             if ($idAlmoxarifado->getIdEmpresa() === $this) {
                 $idAlmoxarifado->setIdEmpresa(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Produto[]
+     */
+    public function getProdutos(): Collection
+    {
+        return $this->produtos;
+    }
+
+    public function addProduto(Produto $produto): self
+    {
+        if (!$this->produtos->contains($produto)) {
+            $this->produtos[] = $produto;
+            $produto->setEmpresa($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduto(Produto $produto): self
+    {
+        if ($this->produtos->contains($produto)) {
+            $this->produtos->removeElement($produto);
+            // set the owning side to null (unless already changed)
+            if ($produto->getEmpresa() === $this) {
+                $produto->setEmpresa(null);
             }
         }
 
